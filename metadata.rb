@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-name             'rakops-os-provisioning'
+name             'twemproxy'
 maintainer       'Rakuten, Inc.'
 maintainer_email 'ops@rakops.com'
 license          'Apache 2.0'
