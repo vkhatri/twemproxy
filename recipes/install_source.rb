@@ -17,7 +17,6 @@
 # limitations under the License.
 #
 
-# setup user
 include_recipe 'twemproxy::user'
 
 compile_options = ''
@@ -29,11 +28,11 @@ node['twemproxy']['compile_options'].each do |k, v|
   end
 end
 
-# setup directories for twemproxy
-[node['twemproxy']['parent_dir'],
- node['twemproxy']['version_dir'],
- node['twemproxy']['conf_dir'],
- node['twemproxy']['install_dir']
+[
+  node['twemproxy']['parent_dir'],
+  node['twemproxy']['version_dir'],
+  node['twemproxy']['conf_dir'],
+  node['twemproxy']['install_dir']
 ].each do |dir|
   directory dir do
     owner node['twemproxy']['user']
@@ -43,7 +42,6 @@ end
   end
 end
 
-# download source
 git node['twemproxy']['source_dir'] do
   repository node['twemproxy']['git_url']
   revision node['twemproxy']['version']
@@ -52,8 +50,13 @@ git node['twemproxy']['source_dir'] do
   notifies :run, 'execute[compile_twemproxy]', :immediately
 end
 
-# compile
 execute 'compile_twemproxy' do
+  command (<<-EOS).gsub(/\s+/, ' ')
+    autoreconf -fvi
+    ./configure #{compile_options}
+    make
+    make install
+  EOS
   user node['twemproxy']['user']
   group node['twemproxy']['group']
   umask node['twemproxy']['umask']
@@ -61,17 +64,16 @@ execute 'compile_twemproxy' do
   # set node['twemproxy']['force_compile'] attribute to re-compile
   # caution: if set, will compile on each chef run
   creates ::File.join(node['twemproxy']['install_dir'], 'sbin', 'nutcracker') unless node['twemproxy']['force_compile']
-  command "autoreconf -fvi ; ./configure #{compile_options} ; make && make install"
 end
 
 template '/etc/init.d/twemproxy' do
   cookbook node['twemproxy']['cookbook']
   source "init.#{node['platform_family']}.erb"
-  owner 'root'
-  group 'root'
-  mode 0750
-  variables(:user => node['twemproxy']['user'],
-            :daemon => node['twemproxy']['daemon'])
+  mode '0755'
+  variables(
+    user: node['twemproxy']['user'],
+    daemon: node['twemproxy']['daemon']
+  )
   notifies :restart, 'service[twemproxy]', :delayed if node['twemproxy']['notify_restart']
   only_if { node['platform_family'] == 'rhel' }
 end

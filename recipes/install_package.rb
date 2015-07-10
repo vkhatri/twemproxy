@@ -20,7 +20,7 @@
 case node['platform_family']
 when 'debian'
   include_recipe 'apt'
-  # apt repository configuration
+
   apt_repository 'twemproxy' do
     uri node['twemproxy']['apt']['uri']
     distribution node['twemproxy']['apt']['distribution']
@@ -31,7 +31,7 @@ when 'debian'
     action node['twemproxy']['apt']['action']
   end
 else
-  fail "package install is not available for platform #{node['platform']}"
+  fail "Package install is not available for platform #{node['platform']}"
 end
 
 package 'twemproxy' do

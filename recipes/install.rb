@@ -19,9 +19,10 @@
 
 include_recipe 'twemproxy::package_dependency'
 
-[node['twemproxy']['log_dir'],
- node['twemproxy']['conf_dir'],
- node['twemproxy']['data_dir']
+[
+  node['twemproxy']['log_dir'],
+  node['twemproxy']['conf_dir'],
+  node['twemproxy']['data_dir']
 ].each do |dir|
   directory dir do
     owner node['twemproxy']['user']
