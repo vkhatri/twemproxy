@@ -34,9 +34,7 @@ file node['twemproxy']['config_file'] do
   owner node['twemproxy']['user']
   group node['twemproxy']['group']
   mode node['twemproxy']['dir_mode']
-  # Use JSON to workaround https://tickets.opscode.com/browse/CHEF-3953
-  # Use lines.to_a to suppress first yaml line
-  content JSON.parse(node['twemproxy']['config'].to_json).to_yaml.lines.to_a[1..-1].join
+  content lazy { render_configuration_file }
   notifies :restart, 'service[twemproxy]', :delayed if node['twemproxy']['notify_restart']
 end
 
