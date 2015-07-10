@@ -22,7 +22,7 @@ template node['twemproxy']['environment_file'] do
   mode node['twemproxy']['dir_mode']
   owner node['twemproxy']['user']
   group node['twemproxy']['group']
-  variables(:launch_options => node['twemproxy']['launch_options'])
+  variables(launch_options: node['twemproxy']['launch_options'])
   notifies :restart, 'service[twemproxy]', :delayed if node['twemproxy']['notify_restart']
 end
 
@@ -36,8 +36,13 @@ file node['twemproxy']['config_file'] do
   notifies :restart, 'service[twemproxy]', :delayed if node['twemproxy']['notify_restart']
 end
 
+cookbook_file '/etc/init/twemproxy.conf' do
+  source 'twemproxy.conf'
+  only_if { node['platform_family'] == 'debian' }
+end
+
 service 'twemproxy' do
   provider Chef::Provider::Service::Upstart if node['platform_family'] == 'debian'
-  supports :status => true, :restart => true
+  supports status: true, restart: true
   action [:enable, :start]
 end
