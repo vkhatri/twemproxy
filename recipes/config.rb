@@ -23,7 +23,6 @@
 
 template node['twemproxy']['environment_file'] do
   source 'environment_file.erb'
-  mode node['twemproxy']['dir_mode']
   owner node['twemproxy']['user']
   group node['twemproxy']['group']
   variables(launch_options: node['twemproxy']['launch_options'])
@@ -33,7 +32,6 @@ end
 file node['twemproxy']['config_file'] do
   owner node['twemproxy']['user']
   group node['twemproxy']['group']
-  mode node['twemproxy']['dir_mode']
   content lazy { render_configuration_file }
   notifies :restart, 'service[twemproxy]', :delayed if node['twemproxy']['notify_restart']
 end

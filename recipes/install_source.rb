@@ -41,7 +41,6 @@ end
   directory dir do
     owner node['twemproxy']['user']
     group node['twemproxy']['group']
-    mode node['twemproxy']['dir_mode']
     recursive true
   end
 end
@@ -63,7 +62,6 @@ execute 'compile_twemproxy' do
   EOS
   user node['twemproxy']['user']
   group node['twemproxy']['group']
-  umask node['twemproxy']['umask']
   cwd node['twemproxy']['source_dir']
   # set node['twemproxy']['force_compile'] attribute to re-compile
   # caution: if set, will compile on each chef run

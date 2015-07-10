@@ -42,8 +42,6 @@ default['twemproxy']['home'] = nil
 default['twemproxy']['config_dir'] = '/etc/twemproxy'
 default['twemproxy']['config_file'] = ::File.join(node['twemproxy']['config_dir'], 'config.yml')
 
-default['twemproxy']['umask'] = '0022'
-default['twemproxy']['dir_mode'] = '0755'
 default['twemproxy']['parent_dir'] = '/usr/local/twemproxy'
 default['twemproxy']['log_dir'] = '/var/log/twemproxy'
 default['twemproxy']['conf_dir'] = '/etc/twemproxy'

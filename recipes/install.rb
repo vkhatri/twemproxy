@@ -31,7 +31,6 @@ include_recipe 'twemproxy::package_dependency'
   directory dir do
     owner node['twemproxy']['user']
     group node['twemproxy']['group']
-    mode node['twemproxy']['dir_mode']
     recursive true
   end
 end
