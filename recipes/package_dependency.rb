@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 #
 # Cookbook Name:: twemproxy
 # Recipe:: package_dependency
