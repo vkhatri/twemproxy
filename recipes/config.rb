@@ -2,7 +2,9 @@
 # Cookbook Name:: twemproxy
 # Recipe:: config
 #
+# Copyright 2015, Rakuten, Inc.
 # Copyright 2014, Virender Khatri
+# Copyright 2014, Guilhem Lettron
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
