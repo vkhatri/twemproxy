@@ -33,4 +33,4 @@ module TwemProxy
   end
 end
 
-Chef::Recipe.send(:include, ::TwemProxy::Helpers)
+Chef::Resource.send(:include, ::TwemProxy::Helpers)
